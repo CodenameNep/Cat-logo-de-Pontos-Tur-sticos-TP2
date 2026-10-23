@@ -1,0 +1,10 @@
+{
+    "dart.defaultDevice": "edge",
+    "dart.flutterAdditionalArgs": [
+        "-d",
+        "edge"
+    ],
+    "dart.env": {
+        "CHROME_EXECUTABLE": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+    }
+}
