@@ -52,21 +52,58 @@ class _PrincipalState extends State<Principal> {
   }
 
   Widget _corpo() {
-    return Center(
+    return ListView.builder(
+      itemCount: pontos.length,
+      itemBuilder: (context, index) {
+        return _itemPonto(pontos[index]);
+      },
+    );
+  }
+
+  Widget _itemPonto(PontoTuristico ponto) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Catálogo de Pontos Turísticos da Baixada Santista",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
+          _imagem(ponto.imagemUrl),
           const SizedBox(height: 8),
           Text(
-            "${pontos.length} pontos turísticos carregados na memória.",
-            style: const TextStyle(fontSize: 15, color: Colors.black54),
+            ponto.nome,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 4),
+          Text(
+            ponto.cidade,
+            style: const TextStyle(fontSize: 14, color: Colors.blueGrey),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            ponto.descricao,
+            style: const TextStyle(fontSize: 14),
+          ),
+          const SizedBox(height: 16),
         ],
+      ),
+    );
+  }
+
+  Widget _imagem(String url) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: Image.network(
+        url,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: 200,
+            color: Colors.grey[300],
+            alignment: Alignment.center,
+            child: const Text("Imagem não disponível"),
+          );
+        },
       ),
     );
   }
