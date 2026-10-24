@@ -83,6 +83,9 @@ class _PrincipalState extends State<Principal> {
                 _cabecalhoPonto(ponto),
                 const SizedBox(height: 10),
                 _descricao(ponto.descricao),
+                const SizedBox(height: 10),
+                const Divider(),
+                _opcoes(ponto),
               ],
             ),
           ),
@@ -134,6 +137,44 @@ class _PrincipalState extends State<Principal> {
         color: Colors.black87,
         height: 1.35,
       ),
+    );
+  }
+
+  Widget _opcoes(PontoTuristico ponto) {
+    return Row(
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: ponto.favorito,
+              activeColor: Colors.redAccent,
+              onChanged: (bool? valor) {
+                setState(() {
+                  ponto.favorito = valor ?? false;
+                });
+              },
+            ),
+            const Text("Favorito"),
+          ],
+        ),
+        const SizedBox(width: 16),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: ponto.visitado,
+              activeColor: Colors.green,
+              onChanged: (bool? valor) {
+                setState(() {
+                  ponto.visitado = valor ?? false;
+                });
+              },
+            ),
+            const Text("Visitado"),
+          ],
+        ),
+      ],
     );
   }
 
