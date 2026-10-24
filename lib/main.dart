@@ -16,6 +16,7 @@ class MeuApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: const Color(0xFFF2F4F7),
       ),
       home: const Principal(),
     );
@@ -48,63 +49,111 @@ class _PrincipalState extends State<Principal> {
       centerTitle: true,
       backgroundColor: Colors.blue,
       foregroundColor: Colors.white,
+      elevation: 2,
     );
   }
 
   Widget _corpo() {
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 12),
       itemCount: pontos.length,
       itemBuilder: (context, index) {
-        return _itemPonto(pontos[index]);
+        return _cardPonto(pontos[index]);
       },
     );
   }
 
-  Widget _itemPonto(PontoTuristico ponto) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
+  Widget _cardPonto(PontoTuristico ponto) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _imagem(ponto.imagemUrl),
-          const SizedBox(height: 8),
-          Text(
-            ponto.nome,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _cabecalhoPonto(ponto),
+                const SizedBox(height: 10),
+                _descricao(ponto.descricao),
+              ],
+            ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            ponto.cidade,
-            style: const TextStyle(fontSize: 14, color: Colors.blueGrey),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            ponto.descricao,
-            style: const TextStyle(fontSize: 14),
-          ),
-          const SizedBox(height: 16),
         ],
       ),
     );
   }
 
-  Widget _imagem(String url) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: Image.network(
-        url,
-        height: 200,
-        width: double.infinity,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            height: 200,
-            color: Colors.grey[300],
-            alignment: Alignment.center,
-            child: const Text("Imagem não disponível"),
-          );
-        },
+  Widget _cabecalhoPonto(PontoTuristico ponto) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Text(
+            ponto.nome,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.blue.shade50,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: Colors.blue.shade200),
+          ),
+          child: Text(
+            ponto.cidade,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Colors.blue.shade700,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _descricao(String texto) {
+    return Text(
+      texto,
+      style: const TextStyle(
+        fontSize: 13.5,
+        color: Colors.black87,
+        height: 1.35,
       ),
+    );
+  }
+
+  Widget _imagem(String url) {
+    return Image.network(
+      url,
+      height: 200,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          height: 200,
+          color: Colors.grey[300],
+          alignment: Alignment.center,
+          child: const Text(
+            "Imagem não disponível",
+            style: TextStyle(color: Colors.black54),
+          ),
+        );
+      },
     );
   }
 }
